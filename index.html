@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="context">
+            <h1 id="quotes"></h1>
+            <br>
+            <br>
+            <h2 id="author"></h2>
+            <button id="generate">Generate New Quote</button>
+        </div>
+        <div class="area" >
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+        </div>
+        <script>
+            const quotes = document.getElementById("quotes");
+            const author = document.getElementById("author");
+            const generate = document.getElementById("generate");
+            let realData = "";
+            const write = () => {
+                var x = Math.floor(Math.random()*1642);
+                quotes.innerHTML = `${realData[x].text}`;
+                if(realData[x].author===null){
+                    author.innerHTML = `- Anonymous`;
+                }
+                else{
+                    author.innerHTML = `- ${realData[x].author}`;
+                }
+            };
+            const quote = async() => {
+                const api = "https://type.fit/api/quotes";
+                try{
+                    let data = await fetch(api);
+                    realData = await data.json();
+                    write();
+                }catch(error){
+                    console.log(error);
+                }
+            };
+            generate.addEventListener("click", write);
+            quote();
+        </script>
+    </body>
+</html>
